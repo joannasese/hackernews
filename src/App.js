@@ -32,18 +32,16 @@ class App extends Component { //component is named 'App'
         <p>{starfish}.</p>
         <p>His first name is {user.firstName}.</p>
         <p>His last name is {user['lastName']}.</p>
-        {list.map(function(item){
-          return (
-            <div>
-              <span>
-                <a href={item.url}>{item.title}</a>
-              </span>
-              <span>{item.author}</span>
-              <span>{item.num_comments}</span>
-              <span>{item.points}</span>
-            </div>
-          );
-        })}
+        {list.map(item =>
+          <div key={item.objectID}>
+            <span>
+              <a href={item.url}>{item.title}</a>
+            </span>
+            <span>{item.author}</span>
+            <span>{item.num_comments}</span>
+            <span>{item.points}</span>
+          </div>
+        )}
       </div>
     );
   }
