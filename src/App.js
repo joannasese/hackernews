@@ -22,6 +22,13 @@ const list = [
 ];
 
 class App extends Component { //component is named 'App'
+  constuctor(props) {
+    super(props); // must call super because App component is subclass of Component
+
+    this.state = {
+      list: list,
+    };
+  }
   render() { // element returned is specified in render method
     const helloWorld = 'Welcome to the Road to Learn React';
     const starfish = 'This is a starfish';
@@ -32,6 +39,7 @@ class App extends Component { //component is named 'App'
         <p>{starfish}.</p>
         <p>His first name is {user.firstName}.</p>
         <p>His last name is {user['lastName']}.</p>
+
         {list.map(item =>
           <div key={item.objectID}>
             <span>
