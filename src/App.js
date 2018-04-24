@@ -33,7 +33,11 @@ class App extends Component { //component is named 'App'
   }
 
   onDismiss(id){
-    
+    function isNotId(item){
+      return item.objectID !== id;
+    }
+
+    const updatedList = this.state.list.filter(isNotId)
   }
 
   render() { // element returned is specified in render method
