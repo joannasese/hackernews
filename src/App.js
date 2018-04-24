@@ -21,6 +21,16 @@ const list = [
   },
 ];
 
+// ES5
+// function isSearched(searchTerm) {
+//   return function(item) {
+//     return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+//   }
+// }
+
+const isSearched = searchTerm => item => // two arrows bc two functions / higher order function (function which returns a function) ?
+  item.title.toLowerCase().includes(searchTerm.toLowerCase());
+
 class App extends Component { //component is named 'App'
   constructor(props) {
     super(props); // must call super because App component is subclass of Component
@@ -55,7 +65,7 @@ class App extends Component { //component is named 'App'
           <input type="text" onChange={this.onSearchChange}/>
         </form>
 
-        {this.state.list.map(item => {
+        {this.state.list.filter(isSearched(this.state.searchTerm)).map(item => {
           // const onHandleDismiss = () => this.onDismiss(item.objectID);
           return (
             <div key={item.objectID}>
