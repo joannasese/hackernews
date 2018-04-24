@@ -27,15 +27,21 @@ class App extends Component { //component is named 'App'
 
     this.state = {
       list, // ES6 shorthand for list: list,
+      searchTerm: '',
     };
 
     // to define onDismiss() as a class method, we must bind it to constructor
     // class methods don’t automatically bind 'this' to the class instance.
+    this.onSearchChange = this.onSearchChange.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
     }
 
 
   // class method logic should be located outside of constructor
+  onSearchChange(event){
+    this.setState({ searchTerm: event.target.value});
+  }
+
   onDismiss(id){
     const isNotId = item => item.objectID !== id
     const updatedList = this.state.list.filter(isNotId)
@@ -45,6 +51,10 @@ class App extends Component { //component is named 'App'
   render() { // element returned is specified in render method
     return (
       <div className="App">
+        <form>
+          <input type="text" onChange={this.onSearchChange}/>
+        </form>
+
         {this.state.list.map(item => {
           // const onHandleDismiss = () => this.onDismiss(item.objectID);
           return (
