@@ -29,38 +29,50 @@ class App extends Component { //component is named 'App'
       list, // ES6 shorthand for list: list,
     };
 
-    this.onDismiss = this.onDismiss.bind(this); // to define onDismiss() as a class method, we must bind it to constructor
-  }
-
-  onDismiss(id){
-    function isNotId(item){
-      return item.objectID !== id;
+    // to define onDismiss() as a class method, we must bind it to constructor
+    // class methods don’t automatically bind 'this' to the class instance.
+    this.onDismiss = this.onDismiss.bind(this);
     }
 
+
+  // class method logic should be located outside of constructor
+  onDismiss(id){
+    const isNotId = item => item.objectID !== id
     const updatedList = this.state.list.filter(isNotId)
+    this.setState({ list: updatedList });
   }
 
   render() { // element returned is specified in render method
     return (
       <div className="App">
-        {this.state.list.map(item =>
-          <div key={item.objectID}>
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span> {item.author} </span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span> // create 'Dismiss' button
-              <button onClick={() => this.onDismiss(item.objectID)} type='button'>
-                Dismiss
-              </button>
-            </span>
-          </div>
-        )}
-      </div>
-    );
+        {this.state.list.map(item => {
+          const onHandleDismiss = () =>
+            this.onDismiss(item.objectID);
+          return (
+            <div key={item.objectID}>
+              <span>
+                <a href={item.url}>{item.title}</a>
+              </span>
+              <span>{item.author}</span>
+              <span>{item.num_comments}</span>
+              <span>{item.points}</span>
+              <span>
+                <button
+                  onClick={onHandleDismiss}
+                  type="button"
+                >
+                  Dismiss
+                </button>
+              </span>
+            </div>
+          );
+        }
+      )}
+    </div>
+   );
   }
 }
+
+
 
 export default App;
