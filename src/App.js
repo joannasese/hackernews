@@ -22,32 +22,36 @@ const list = [
 ];
 
 class App extends Component { //component is named 'App'
-  constuctor(props) {
+  constructor(props) {
     super(props); // must call super because App component is subclass of Component
 
     this.state = {
-      list: list,
+      list, // ES6 shorthand for list: list,
     };
+
+    this.onDismiss = this.onDismiss.bind(this); // to define onDismiss() as a class method, we must bind it to constructor
   }
+
+  onDismiss(id){
+    
+  }
+
   render() { // element returned is specified in render method
-    const helloWorld = 'Welcome to the Road to Learn React';
-    const starfish = 'This is a starfish';
-    const user = {firstName: 'Jelly', lastName: 'Belly'};
     return (
       <div className="App">
-        <h2>{helloWorld}</h2>
-        <p>{starfish}.</p>
-        <p>His first name is {user.firstName}.</p>
-        <p>His last name is {user['lastName']}.</p>
-
-        {list.map(item =>
+        {this.state.list.map(item =>
           <div key={item.objectID}>
             <span>
               <a href={item.url}>{item.title}</a>
             </span>
-            <span>{item.author}</span>
+            <span> {item.author} </span>
             <span>{item.num_comments}</span>
             <span>{item.points}</span>
+            <span> // create 'Dismiss' button
+              <button onClick={() => this.onDismiss(item.objectID)} type='button'>
+                Dismiss
+              </button>
+            </span>
           </div>
         )}
       </div>
