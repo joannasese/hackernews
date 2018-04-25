@@ -33,6 +33,7 @@ const list = [
 //   }
 // }
 
+// ES6
 const isSearched = searchTerm => item => // two arrows bc two functions / higher order function (function which returns a function) ?
   item.title.toLowerCase().includes(searchTerm.toLowerCase());
 
@@ -71,14 +72,18 @@ class App extends Component { //component is named 'App'
   }
 
   render() { // element returned is specified in render method
+    // ES6 destructuring
+    const {list, searchTerm } = this.state;
+
     return (
       <div className="App">
         <form>
           <input type="text" onChange={this.onSearchChange}/>
         </form>
 
-        {this.state.list.filter(isSearched(this.state.searchTerm)).map(item => {
+        {list.filter(isSearched(searchTerm)).map(item => {
           // const onHandleDismiss = () => this.onDismiss(item.objectID);
+          // one option would be to pass { onHandleDismiss } within the click event
           return (
             <div key={item.objectID}>
               <span>
