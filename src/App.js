@@ -1,3 +1,8 @@
+// UNIDIRECTIONAL DATA FLOW:
+// onClick() triggers an action
+// a function or class method modifies the internal component state
+// render() method runs again to update the view
+
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
@@ -46,7 +51,6 @@ class App extends Component { //component is named 'App'
     this.onDismiss = this.onDismiss.bind(this);
     }
 
-
   // class method logic should be located outside of constructor
   onSearchChange(event){
     this.setState({ searchTerm: event.target.value});
@@ -54,8 +58,14 @@ class App extends Component { //component is named 'App'
 
   onDismiss(id){
     const isNotId = item => item.objectID !== id
+    // another way to write this would be
+    // function isNotId(item) {
+    //   return item.objectID !== id
+    // }
     const updatedList = this.state.list.filter(isNotId)
+    // if item.objectID !== id, item stays in the list
     this.setState({ list: updatedList });
+    // returns new list instead of mutating original list
   }
 
   render() { // element returned is specified in render method
