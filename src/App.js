@@ -47,16 +47,18 @@ class App extends Component { //component is named 'App'
 
     // to define onDismiss() as a class method, we must bind it to constructor
     // class methods don’t automatically bind 'this' to the class instance.
-    this.onSearchChange = this.onSearchChange.bind(this);
-    this.onDismiss = this.onDismiss.bind(this);
+
+    // we could also not bind in the constructor by writing class methods as arrow functions
+    // this.onSearchChange = this.onSearchChange.bind(this);
+    // this.onDismiss = this.onDismiss.bind(this);
     }
 
   // class method logic should be located outside of constructor
-  onSearchChange(event){
+  onSearchChange = (event) => {
     this.setState({ searchTerm: event.target.value});
   }
 
-  onDismiss(id){
+  onDismiss = (id) => {
     const isNotId = item => item.objectID !== id
     // another way to write this would be
     // function isNotId(item) {
