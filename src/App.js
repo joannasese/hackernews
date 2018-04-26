@@ -46,17 +46,26 @@ class App extends Component { //component is named 'App'
     this.setState({ result });
   }
 
-  componentDidMount() {
-    const { searchTerm } = this.state;
-
+  fetchSearchTopStories = (searchTerm) => {
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result))
       .catch(error => error);
   }
 
+  componentDidMount() {
+    const { searchTerm } = this.state;
+    this.fetchSearchTopStories(searchTerm);
+  }
+
   onSearchChange = (event) => {
     this.setState({ searchTerm: event.target.value});
+  }
+
+  onSearchSubmit = () => {
+    const { searchTerm } = this.state;
+    this.fetchSearchTopStories(searchTerm);
+    event.preventDefault();
   }
 
   onDismiss = (id) => {
@@ -83,6 +92,7 @@ class App extends Component { //component is named 'App'
           <Search
             value={searchTerm}
             onChange={this.onSearchChange}
+            onSubmit={this.onSearchSubmit}
           >
             Search
           </Search>
@@ -90,7 +100,6 @@ class App extends Component { //component is named 'App'
         { result
           ? <Table
             list={result.hits}
-            pattern={searchTerm}
             onDismiss={this.onDismiss}
           />
           : null
@@ -100,17 +109,26 @@ class App extends Component { //component is named 'App'
     }
   }
 
-const Search = ({value, onChange, children}) =>
-  <form>
-    {children}<input
-    type="text"
-    value={value}
-    onChange={onChange}/>
+const Search = ({
+  value,
+  onChange,
+  onSubmit,
+  children
+}) =>
+  <form onSubmit={onSubmit}>
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+    />
+  <button type="submit">
+    {children}
+  </button>
   </form>
 
-const Table = ({list, pattern, onDismiss}) =>
+const Table = ({list, onDismiss}) =>
   <div className="table">
-    {list.filter(isSearched(pattern)).map(item =>
+    {list.map(item =>
       // const onHandleDismiss = () => this.onDismiss(item.objectID);
       // one option would be to pass { onHandleDismiss } within the click event
       <div key={item.objectID} className="table-row">
