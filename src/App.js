@@ -77,13 +77,15 @@ class App extends Component { //component is named 'App'
     const {list, searchTerm } = this.state;
 
     return (
-      <div className="App">
-        <Search
-          value={searchTerm}
-          onChange={this.onSearchChange}
-        >
-          Search
-        </Search>
+      <div className="page">
+        <div className="interactions">
+          <Search
+            value={searchTerm}
+            onChange={this.onSearchChange}
+          >
+            Search
+          </Search>
+        </div>
         <Table
           list={list}
           pattern={searchTerm}
@@ -103,21 +105,30 @@ const Search = ({value, onChange, children}) =>
   </form>
 
 const Table = ({list, pattern, onDismiss}) =>
-  <div>
+  <div className="table">
     {list.filter(isSearched(pattern)).map(item =>
       // const onHandleDismiss = () => this.onDismiss(item.objectID);
       // one option would be to pass { onHandleDismiss } within the click event
-      <div key={item.objectID}>
-        <span>
+      <div key={item.objectID} className="table-row">
+        <span style={{ width: '40%' }}>
           <a href={item.url}>{item.title}</a>
         </span>
-        <span>{item.author}</span>
-        <span>{item.num_comments}</span>
-        <span>{item.points}</span>
-        <span>
-          <button onClick={() => onDismiss(item.objectID)}>
+        <span style={{ width: '30%' }}>
+          {item.author}
+        </span>
+        <span style={{ width: '10%' }}>
+          {item.num_comments}
+        </span>
+        <span style={{ width: '10%' }}>
+          {item.points}
+        </span>
+        <span style={{ width: '10%' }}>
+          <Button
+            onClick={() => onDismiss(item.objectID)}
+            className="button-inline"
+          >
             Dismiss
-          </button>
+          </Button>
         </span>
       </div>
     )}
