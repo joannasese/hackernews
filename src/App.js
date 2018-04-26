@@ -54,25 +54,28 @@ class App extends Component { //component is named 'App'
       .then(result => this.setSearchTopStories(result))
       .catch(error => error);
   }
+
   onSearchChange = (event) => {
     this.setState({ searchTerm: event.target.value});
   }
 
   onDismiss = (id) => {
     const isNotId = item => item.objectID !== id
-    // another way to write this would be
-    // function isNotId(item) {
-    //   return item.objectID !== id
-    // }
-    const updatedList = this.state.list.filter(isNotId)
     // if item.objectID !== id, item stays in the list
-    this.setState({ list: updatedList });
-    // returns new list instead of mutating original list
+    const updatedHits = this.state.result.hits.filter(isNotId);
+    // const updatedList = this.state.list.filter(isNotId)
+    this.setState({
+      // result: Object.assign({}, this.state.result, { hits: updatedHits })
+      // using spread operator in place of Object.assign()
+      result: { ...this.state.result, hits: updatedHits }
+    });
   }
 
   render() { // element returned is specified in render method
     // ES6 destructuring
-    const {list, searchTerm } = this.state;
+    const { result, searchTerm } = this.state;
+
+    if (!result) { return null; }
 
     return (
       <div className="page">
@@ -85,7 +88,7 @@ class App extends Component { //component is named 'App'
           </Search>
         </div>
         <Table
-          list={list}
+          list={result.hits}
           pattern={searchTerm}
           onDismiss={this.onDismiss}
           />
