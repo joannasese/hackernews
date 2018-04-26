@@ -75,7 +75,7 @@ class App extends Component { //component is named 'App'
     // ES6 destructuring
     const { result, searchTerm } = this.state;
 
-    if (!result) { return null; }
+    // if (!result) { return null; }
 
     return (
       <div className="page">
@@ -87,11 +87,14 @@ class App extends Component { //component is named 'App'
             Search
           </Search>
         </div>
-        <Table
-          list={result.hits}
-          pattern={searchTerm}
-          onDismiss={this.onDismiss}
+        { result
+          ? <Table
+            list={result.hits}
+            pattern={searchTerm}
+            onDismiss={this.onDismiss}
           />
+          : null
+        }
       </div>
      );
     }
