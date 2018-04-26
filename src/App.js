@@ -94,67 +94,42 @@ class App extends Component { //component is named 'App'
     }
   }
 
-class Search extends Component {
-  render() {
-    const { value, onChange, children } = this.props;
-    return (
-      <form>
-        {children}<input type="text"
-        value={value}
-        onChange={onChange}/>
-      </form>
-    )
-  }
-}
+const Search = ({value, onChange, children}) =>
+  <form>
+    {children}<input
+    type="text"
+    value={value}
+    onChange={onChange}/>
+  </form>
 
-class Table extends Component {
-  render() {
-    const {list, pattern, onDismiss } = this.props;
-    return (
-      <div>
-        {list.filter(isSearched(pattern)).map(item =>
-          // const onHandleDismiss = () => this.onDismiss(item.objectID);
-          // one option would be to pass { onHandleDismiss } within the click event
-          <div key={item.objectID}>
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <button onClick={() => onDismiss(item.objectID)}>
-                Dismiss
-              </button>
-            </span>
-          </div>
-      )}
+const Table = ({list, pattern, onDismiss}) =>
+  <div>
+    {list.filter(isSearched(pattern)).map(item =>
+      // const onHandleDismiss = () => this.onDismiss(item.objectID);
+      // one option would be to pass { onHandleDismiss } within the click event
+      <div key={item.objectID}>
+        <span>
+          <a href={item.url}>{item.title}</a>
+        </span>
+        <span>{item.author}</span>
+        <span>{item.num_comments}</span>
+        <span>{item.points}</span>
+        <span>
+          <button onClick={() => onDismiss(item.objectID)}>
+            Dismiss
+          </button>
+        </span>
       </div>
-    );
-  }
-}
+    )}
+  </div>
 
-class Button extends Component {
-  render() {
-    const {
-      onClick,
-      className = '',
-      // when there is no className property, value will be empty string instead of undefined
-      children,
-    } = this.props;
-
-    return (
-      <button
-        onClick={onClick}
-        className={className}
-        type="button"
-      >
-        {children}
-      </button>
-    )
-  }
-}
-
-
+const Button = ({onClick, className='', children}) =>
+  <button
+    onClick={onClick}
+    className={className}
+    type="button"
+  >
+    {children}
+  </button>
 
 export default App;
