@@ -4,7 +4,6 @@
 // render() method runs again to update the view
 
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 // import Search from './Search.js';
 // import Table from './Table.js';
@@ -82,7 +81,9 @@ class App extends Component { //component is named 'App'
         <Search
           value={searchTerm}
           onChange={this.onSearchChange}
-          />
+        >
+          Search
+        </Search>
         <Table
           list={list}
           pattern={searchTerm}
@@ -95,10 +96,10 @@ class App extends Component { //component is named 'App'
 
 class Search extends Component {
   render() {
-    const { value, onChange } = this.props;
+    const { value, onChange, children } = this.props;
     return (
       <form>
-        <input type="text"
+        {children}<input type="text"
         value={value}
         onChange={onChange}/>
       </form>
