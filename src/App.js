@@ -123,10 +123,7 @@ class Table extends Component {
             <span>{item.num_comments}</span>
             <span>{item.points}</span>
             <span>
-              <button
-                onClick={() => onDismiss(item.objectID)}
-                type="button"
-              >
+              <button onClick={() => onDismiss(item.objectID)}>
                 Dismiss
               </button>
             </span>
@@ -134,6 +131,27 @@ class Table extends Component {
       )}
       </div>
     );
+  }
+}
+
+class Button extends Component {
+  render() {
+    const {
+      onClick,
+      className = '',
+      // when there is no className property, value will be empty string instead of undefined
+      children,
+    } = this.props;
+
+    return (
+      <button
+        onClick={onClick}
+        className={className}
+        type="button"
+      >
+        {children}
+      </button>
+    )
   }
 }
 
