@@ -5,27 +5,12 @@
 
 import React, { Component } from 'react';
 import './App.css';
-// import Search from './Search.js';
-// import Table from './Table.js';
 
-const list = [
-  {
-    title: 'React',
-    url: 'https://facebook.github.io/react/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectID: 0,
-  },
-  {
-    title: 'Redux',
-    url: 'https://github.com/reactjs/redux',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 5,
-    objectID: 1,
-  },
-];
+const DEFAULT_QUERY = 'redux';
+
+const PATH_BASE = 'https://hn.algolia.com/api/v1';
+const PATH_SEARCH = '/search';
+const PARAM_SEARCH = 'query=';
 
 // ES5
 // function isSearched(searchTerm) {
@@ -43,8 +28,8 @@ class App extends Component { //component is named 'App'
     super(props); // must call super because App component is subclass of Component
 
     this.state = {
-      list, // ES6 shorthand for list: list,
-      searchTerm: '',
+      result: null,
+      searchTerm: DEFAULT_QUERY,
     };
 
     // to define onDismiss() as a class method, we must bind it to constructor
@@ -53,9 +38,22 @@ class App extends Component { //component is named 'App'
     // we could also not bind in the constructor by writing class methods as arrow functions
     // this.onSearchChange = this.onSearchChange.bind(this);
     // this.onDismiss = this.onDismiss.bind(this);
-    }
+  }
 
   // class method logic should be located outside of constructor
+
+  setSearchTopStories = (result) => {
+    this.setState({ result });
+  }
+
+  componentDidMount() {
+    const { searchTerm } = this.state;
+
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+      .then(response => response.json())
+      .then(result => this.setSearchTopStories(result))
+      .catch(error => error);
+  }
   onSearchChange = (event) => {
     this.setState({ searchTerm: event.target.value});
   }
