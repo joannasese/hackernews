@@ -11,6 +11,7 @@ const DEFAULT_QUERY = 'redux';
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
+const PARAM_PAGE = 'page=';
 
 // ES5
 // function isSearched(searchTerm) {
@@ -46,8 +47,8 @@ class App extends Component { //component is named 'App'
     this.setState({ result });
   }
 
-  fetchSearchTopStories = (searchTerm) => {
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+  fetchSearchTopStories(searchTerm, page = 0) {
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}\${page}`)
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result))
       .catch(error => error);
@@ -62,7 +63,7 @@ class App extends Component { //component is named 'App'
     this.setState({ searchTerm: event.target.value});
   }
 
-  onSearchSubmit = () => {
+  onSearchSubmit = (event) => {
     const { searchTerm } = this.state;
     this.fetchSearchTopStories(searchTerm);
     event.preventDefault();
@@ -83,6 +84,7 @@ class App extends Component { //component is named 'App'
   render() { // element returned is specified in render method
     // ES6 destructuring
     const { result, searchTerm } = this.state;
+    const page = (result && result.page) || 0;
 
     // if (!result) { return null; }
 
