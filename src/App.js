@@ -99,13 +99,16 @@ class App extends Component { //component is named 'App'
             Search
           </Search>
         </div>
-        { result
-          ? <Table
+        { result &&
+          <Table
             list={result.hits}
             onDismiss={this.onDismiss}
-          />
-          : null
-        }
+            /> }
+        <div className="interactions">
+          <Button onClick={() => this.fetchSearchTopStories(searchTerm, page + 1\
+            More
+          </Button>
+        </div>
       </div>
      );
     }
